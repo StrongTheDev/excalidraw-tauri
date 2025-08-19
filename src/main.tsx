@@ -3,9 +3,15 @@ import { createRoot } from "react-dom/client";
 import "./utils/init.ts";
 import "./index.css";
 import App from "./App.tsx";
+import { saveWindowState, StateFlags } from "@tauri-apps/plugin-window-state";
+import { Window } from "@tauri-apps/api/window";
 
-// const main = new Window("main");
-// // main.setAlwaysOnTop(true)
+const main = new Window("main");
+main.onCloseRequested(async () => {
+  await saveWindowState(StateFlags.ALL);
+  // await main.destroy();
+});
+// main.setAlwaysOnTop(true)
 
 // const libWindow = new WebviewWindow("library");
 // libWindow.onCloseRequested(async (e) => {

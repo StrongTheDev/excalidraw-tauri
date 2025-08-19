@@ -23,8 +23,7 @@ static INIT: AtomicBool = AtomicBool::new(false);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let builder = tauri::Builder::default();
-    builder
+    tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .setup(|app| {
@@ -85,6 +84,10 @@ pub fn run() {
                         },
                     ))
                     .unwrap();
+                let _ = app
+                    .handle()
+                    .plugin(tauri_plugin_window_state::Builder::new().build())
+                    .unwrap();
             }
 
             // ARGS
@@ -92,8 +95,8 @@ pub fn run() {
             info!("Startup args: {:?}", args);
 
             // If opened by double-click, the path will be in args[1]
-            let events_clone = Arc::clone(&events_arc);
             {
+                let events_clone = Arc::clone(&events_arc);
                 let mut events = events_clone.lock().unwrap();
                 handle_files(app.handle(), args, &mut events);
             }
@@ -129,11 +132,13 @@ fn handle_files(app_handle: &AppHandle, args: Vec<String>, events: &mut Vec<(&st
     publish_events(app_handle, events);
 }
 
+#[inline]
 fn publish_events(app_handle: &AppHandle, events: &mut Vec<(&str, Payload)>) {
-    if INIT.load(Ordering::SeqCst) {
-        for event in events {
+    if dbg!(INIT.load(Ordering::SeqCst)) {
+        for event in &mut *events {
             app_handle.emit(event.0, event.1.clone()).unwrap();
         }
+        events.clear();
     }
 }
 

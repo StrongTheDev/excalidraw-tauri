@@ -95,10 +95,10 @@ function App() {
 
   useEffect(() => {
     if (!eAPI) return;
-    const e = listen("openFile", (filePath: Event<string>) => {
+    const e = listen("openFile", (filePath: Event<Payload>) => {
       const payload = filePath.payload;
-      console.log(`${payload} is being opened...`);
-      loadFile(eAPI, payload);
+      console.log(`${payload.fileName} is being opened...`);
+      loadFile(eAPI, payload.fileName);
     });
     return () => {
       (async () => {
@@ -107,9 +107,9 @@ function App() {
     };
   }, [eAPI]);
 
-  useEffect(()=>{
-    emit("appReady")
-  });
+  useEffect(() => {
+    if (eAPI) emit("appReady");
+  }, [eAPI]);
 
   return (
     <>

@@ -1,7 +1,13 @@
-import { mkdir, exists, /*create*/ } from "@tauri-apps/plugin-fs";
+import { mkdir, exists /*create*/ } from "@tauri-apps/plugin-fs";
 import { path } from "@tauri-apps/api";
 // import type { ExcalidrawLibType } from "./types";
 import { join } from "@tauri-apps/api/path";
+import {
+  restoreStateCurrent,
+  StateFlags,
+} from "@tauri-apps/plugin-window-state";
+
+restoreStateCurrent(StateFlags.ALL);
 
 console.log("Initializing App...");
 
@@ -44,7 +50,4 @@ async function makeDirectoryIfNotExists(directory: string) {
   }
 }
 
-export {
-  appDataDirectory,
-  customLibsDirectory,
-};
+export { appDataDirectory, customLibsDirectory };
