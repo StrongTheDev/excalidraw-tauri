@@ -1,0 +1,80 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Excalidraw",
+  "version": "0.1.0",
+  "identifier": "com.excalidraw.unofficial",
+  "build": {
+    "removeUnusedCommands": false,
+    "devUrl": "http://localhost:5173",
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Excalidraw - Deskop",
+        "width": 800,
+        "height": 600,
+        "resizable": true,
+        "visible": false,
+        "fullscreen": false,
+        "browserExtensionsEnabled": false,
+        "focus": true,
+        "zoomHotkeysEnabled": true,
+        "userAgent": "Excalidraw - Unofficial desktop client",
+        "minWidth": 300,
+        "minHeight": 150,
+        "dragDropEnabled": false
+      }
+    ],
+    "security": {
+      "csp": null
+    },
+    "withGlobalTauri": false
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "fileAssociations": [
+      {
+        "ext": ["excalidraw"],
+        "name": "Excalidraw Drawing",
+        "description": "A drawing created with Excalidraw",
+        "role": "Editor",
+        "rank": "Owner"
+      },
+      {
+        "ext": ["excalidrawlib"],
+        "name": "Excalidraw Drawings Library",
+        "description": "A drawing library for Excalidraw",
+        "role": "Editor",
+        "rank": "Owner"
+      }
+    ],
+    "windows": {
+      "allowDowngrades": true,
+      "certificateThumbprint": null,
+      "digestAlgorithm": null,
+      "nsis": {
+        "installerIcon": "icons/icon.ico"
+      },
+      "signCommand": null,
+      "timestampUrl": null,
+      "tsp": false,
+      "webviewInstallMode": {
+        "type": "offlineInstaller",
+        "silent": true
+      },
+      "wix": null
+    }
+  }
+}
